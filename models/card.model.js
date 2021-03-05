@@ -63,5 +63,26 @@ async function clearDeck(res, id){
     }
 }
 
+async function byDeckID(res, userID){
+    try{
+        const[decks] = await pool.query("SELECT * FROM cards WHERE cards.deck_id = ?", [userID])
+        
+        res.send({
+            success: true,
+            data: cards,
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+}
 
-modules.export = {add, remove, clearDeck}
+
+modules.export = {add, remove, clearDeck, byDeckID, }
