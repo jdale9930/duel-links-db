@@ -12,8 +12,8 @@ router.delete("/delete/:id", (req, res)=>{
 router.patch("/edit", (req, res)=>{
     return decks.editName(res, req.body);
 })
-router.get("/byUserID", (req, res)=>{
-    return decks.byUserID(res, req.body.user_id);
+router.get("/byUserID/:UserID", (req, res)=>{
+    return decks.byUserID(res, req.params.UserID);
 })
 router.get("/all", (req, res)=>{
     return decks.all(res);

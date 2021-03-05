@@ -9,11 +9,11 @@ router.post("/add", (req, res)=>{
 router.delete("/delete/:id", (req, res)=>{
     return cards.remove(res, req.params.id)
 })
-router.get("/clearDeck", (req, res)=>{
-    return res.clearDeck(res, req.body)
+router.get("/clearDeck/:DeckID", (req, res)=>{
+    return cards.clearDeck(res, req.params.DeckID)
 })
-router.post("/byDeckID", (req, res)=>{
-    return res.byDeckID(res, req.body)
+router.get("/byDeckID/:DeckID", (req, res)=>{
+    return cards.byDeckID(res, req.params.DeckID)
 })
 
 module.exports = router
