@@ -1,5 +1,25 @@
 const pool = require("../config/mysql.conf")
 
+async function remove(res, id){
+    try{
+        await pool.query("DELETE FROM decks WHERE decks.id = ?", [id])
+        return res.send({
+            success: true,
+            data: "Succesfully deleted the deck",
+            error: null
+        })
+    }
+    catch(err){
+        console.log(err)
+        return res.send({
+            
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+}
+
 async function add(res, deck){
     try{
         if(decks.name.length < 1 || decks.name.length > 40 || isNaN(deck.user_id)){
@@ -21,6 +41,17 @@ async function add(res, deck){
             data: null,
             error: err
         })
+    }
+}
+
+async function editName(res, deck)
+{
+    if(isNaN(deck.id) ||
+    !deck.name ||
+    deck.name < 1 ||
+    deck.name > 20)
+    {
+        
     }
 }
 
@@ -65,3 +96,4 @@ async function all(){
         })
     }
 }
+modules.export = {add, remove, editName, byUserID, all}
