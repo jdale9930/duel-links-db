@@ -24,10 +24,10 @@ async function signup(res, username, password)
             throw "Username is already taken"
         }
 
-        await poolquery("INSERT INTO users (username, password) values (?,?"), [
+        await pool.query("INSERT INTO users (username, password) values (?,?)", [
             username,
             encrypted
-        ]
+        ])
         return res.send({
             success: true,
             data: "Succesfully signed up",

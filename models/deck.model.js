@@ -1,3 +1,4 @@
+
 const pool = require("../config/mysql.conf")
 
 async function remove(res, id){
@@ -18,15 +19,15 @@ async function remove(res, id){
             error: err
         })
     }
-}
+};
 
 async function add(res, deck){
     try{
-        if(decks.name.length < 1 || decks.name.length > 40 || isNaN(deck.user_id)){
+        if(deck.name.length < 1 || deck.name.length > 40 || isNaN(deck.user_id)){
             throw "Invalid data provided"
         }
 
-        await pool.query("INSERT INTO decks (user_id, name VALUES (?,?)", [deck.user_id, deck.name])
+        await pool.query("INSERT INTO decks (user_id, name) VALUES (?,?)", [deck.user_id, deck.name])
         return res.send({
             success: true,
             data: "Succesfully created a new deck!",
@@ -42,24 +43,41 @@ async function add(res, deck){
             error: err
         })
     }
-}
+};
 
 async function editName(res, deck)
 {
-    if(isNaN(deck.id) ||
-    !deck.name ||
-    deck.name < 1 ||
-    deck.name > 20)
-    {
-        
+    try{
+        if(isNaN(deck.id) ||
+            !deck.name ||
+            deck.name < 1 ||
+            deck.name > 20)
+        {
+            throw "Invalid Data Provided"
+        }
+        await pool.query("UPDATE decks SET name = ? WHERE decks.id = ?", [deck.name, deck.id])
+
+        return res.send({
+            success: true,
+            data: "Successfully changed name",
+            error: null
+        })
     }
-}
+    catch(err){
+        console.log(err)
+        return res.send({
+            success: false,
+            data: null,
+            error: err
+        })
+    }
+};
 
 async function byUserID(res, userID){
     try{
         const[decks] = await pool.query("SELECT * FROM decks WHERE decks.user_id = ?", [userID])
         
-        res.send({
+        return res.send({
             success: true,
             data: decks,
             error: null
@@ -74,13 +92,13 @@ async function byUserID(res, userID){
             error: err
         })
     }
-}
+};
 
-async function all(){
+async function all(res){
     try{
         const[decks] = await pool.query("SELECT * FROM decks")
 
-        res.send({
+        return res.send({
             success: true,
             data: decks,
             error: null
@@ -95,5 +113,5 @@ async function all(){
             error: err
         })
     }
-}
-modules.export = {add, remove, editName, byUserID, all}
+};
+module.exports = {remove, add, editName, byUserID, all}

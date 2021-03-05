@@ -85,4 +85,4 @@ async function byDeckID(res, userID){
 }
 
 
-modules.export = {add, remove, clearDeck, byDeckID, }
+module.exports = {add, remove, clearDeck, byDeckID}
