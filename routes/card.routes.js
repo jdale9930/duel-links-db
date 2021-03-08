@@ -9,7 +9,7 @@ router.post("/add", (req, res)=>{
 router.delete("/delete/:id", (req, res)=>{
     return cards.remove(res, req.params.id)
 })
-router.get("/clearDeck/:DeckID", (req, res)=>{
+router.delete("/clearDeck/:DeckID", (req, res)=>{
     return cards.clearDeck(res, req.params.DeckID)
 })
 router.get("/byDeckID/:DeckID", (req, res)=>{

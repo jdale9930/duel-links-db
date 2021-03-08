@@ -6,18 +6,19 @@ function isInvalid(val, min, max)
     return !val || val.length < min || val.length > max;
 }
 
-async function signup(res, username, password)
+async function signup(res, userInfo)
 {
+    console.log(userInfo)
     try{
-        const encrypted = await bcrypt.hash(password, 8)
-        if(isInvalid(username, 4, 20) || isInvalid(password, 8, 64))
+        const encrypted = await bcrypt.hash(userInfo.password, 8)
+        if(isInvalid(userInfo.username, 4, 20) || isInvalid(userInfo.password, 8, 64))
         {
             throw "Invalid Data Provided"
         }
     
 
         let [user] =
-        await pool.query("SELECT * FROM users WHERE users.username = ?", [username])
+        await pool.query("SELECT * FROM users WHERE users.username = ?", [userInfo.username])
         
         if(user.length > 0)
         {
@@ -25,7 +26,7 @@ async function signup(res, username, password)
         }
 
         await pool.query("INSERT INTO users (username, password) values (?,?)", [
-            username,
+            userInfo.username,
             encrypted
         ])
         return res.send({
