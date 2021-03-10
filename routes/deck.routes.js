@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const decks = require("../models/deck.model")
+const isAuth = require("../middleware/isAuth")
 
-router.post("/add", (req, res)=>{
+router.post("/add", isAuth, (req, res)=>{
     return decks.add(res, req.body);
 })
 

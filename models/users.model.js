@@ -15,7 +15,6 @@ async function signup(res, userInfo)
         {
             throw "Invalid Data Provided"
         }
-    
 
         let [user] =
         await pool.query("SELECT * FROM users WHERE users.username = ?", [userInfo.username])
@@ -29,9 +28,11 @@ async function signup(res, userInfo)
             userInfo.username,
             encrypted
         ])
+
+        const id = await pool.query("SELECT id FROM users WHERE users.username = ?", [userInfo.username])
         return res.send({
             success: true,
-            data: "Succesfully signed up",
+            data: {username: userInfo.username, user_id: id},
             error: null
         })
 
@@ -47,38 +48,38 @@ async function signup(res, userInfo)
     }
 }
 
-async function login(res, username, password)
-{
-    try{
-        if(isInvalid(username, 4, 20) || isInvalid(password, 8, 64))
-        {
-            throw "Invalid Data Provided"
-        }
+// async function login(res, username, password)
+// {
+//     try{
+//         if(isInvalid(username, 4, 20) || isInvalid(password, 8, 64))
+//         {
+//             throw "Invalid Data Provided"
+//         }
 
-        let [users] = await pool.query("SELECT * FROM users WHERE users.username = ?", [username])
-        if(users.length === 0){
-            throw "Invalid username or password"
-        }
+//         let [users] = await pool.query("SELECT * FROM users WHERE users.username = ?", [username])
+//         if(users.length === 0){
+//             throw "Invalid username or password"
+//         }
 
-        const match = await bcrypt.compare(password, users[0].password)
-        if (!match) {
-            throw "Invalid username or password"
-        }
+//         const match = await bcrypt.compare(password, users[0].password)
+//         if (!match) {
+//             throw "Invalid username or password"
+//         }
 
-        res.send({
-            success: true,
-            data: {username: users[0].username},
-            error: null
-        })    
-    }
-    catch(err){
-        console.log(err)
-        return res.send({
-            success: false,
-            data: null,
-            error: err
-        })
-    }
-}
+//         res.send({
+//             success: true,
+//             data: {username: users[0].username},
+//             error: null
+//         })    
+//     }
+//     catch(err){
+//         console.log(err)
+//         return res.send({
+//             success: false,
+//             data: null,
+//             error: err
+//         })
+//     }
+// }
 
-module.exports = {signup, login}
+module.exports = {signup}

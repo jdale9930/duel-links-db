@@ -63,9 +63,9 @@ async function clearDeck(res, id){
     }
 }
 
-async function byDeckID(res, userID){
+async function byDeckID(res, deckID){
     try{
-        const[cards] = await pool.query("SELECT * FROM cards WHERE cards.deck_id = ?", [userID])
+        const[cards] = await pool.query("SELECT * FROM cards WHERE cards.deck_id = ?", [deckID])
         
         return res.send({
             success: true,
