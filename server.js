@@ -24,8 +24,7 @@ app.use(passport.session());
 app.use("/users", userRoutes)
 app.use("/decks", deckRoutes)
 app.use("/cards", cardRoutes)
-app.get("/", (req,res) => res.send("Yo whattup"))
-app.get("*", (req, res) => res.redirect("/"))
+
 
 app.get("*"), (req, res) => {
     res.sendFile("/build/index.html", {root: __dirname + "/"})

@@ -39,6 +39,11 @@ router.post("/login", (req, res)=>{
     // return user.login(res, req.body.username, req.body.password);
 })
 
+router.get("/logout", (req, res) => {
+    req.logOut();
+    return res.send({ success: true, data: [], error: null });
+  });
+
 
 
 module.exports = router;
