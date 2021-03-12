@@ -3,7 +3,8 @@ const router = express.Router();
 const decks = require("../models/deck.model")
 const isAuth = require("../middleware/isAuth")
 
-router.post("/add", isAuth, (req, res)=>{
+router.post("/add", (req, res)=>{
+    console.log(req.body)
     return decks.add(res, req.body);
 })
 
