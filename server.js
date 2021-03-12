@@ -26,8 +26,8 @@ app.use("/decks", deckRoutes)
 app.use("/cards", cardRoutes)
 
 
-app.get("*"), (req, res) => {
+app.get("*", (req, res) => {
     res.sendFile("/build/index.html", {root: __dirname + "/"})
-}
+})
 
 app.listen(port, ()=> console.log(`Yeehaw server is on ${port}`));
